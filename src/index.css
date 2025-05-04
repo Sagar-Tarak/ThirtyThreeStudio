@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import "tailwindcss";
+
+@layer utilities {
+    .animate-spin-slow {
+      animation: spin 10s linear infinite;
+    }
+  
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+
+body{
+    /* background-color: #FD2C2A; */
+    background-color: black;
+    color: white;
+    
+}
+
+canvas {
+    pointer-events: none;
+}
+
+span.growing {
+    background-color: #fd2c2a;
+  }
