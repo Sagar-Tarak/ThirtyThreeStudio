@@ -1,6 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Canvas from "../Canvas";
 import { FiPlus, FiMinus } from "react-icons/fi";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Utility to split text into spans (by word), with better spacing
+function SplitWords({ text, className, spanClass }) {
+  const words = text.split(" ");
+  return (
+    <span className={className} style={{ whiteSpace: "pre-wrap" }}>
+      {words.map((word, i) => (
+        <React.Fragment key={i}>
+          <span
+            className={spanClass}
+            style={{ display: "inline-block", overflow: "hidden", marginRight: i !== words.length - 1 ? "0.25em" : 0 }}
+          >
+            {word}
+          </span>
+        </React.Fragment>
+      ))}
+    </span>
+  );
+}
 
 function Services({ showCanvas, canvasData }) {
   const bgColor = showCanvas
@@ -24,6 +47,98 @@ function Services({ showCanvas, canvasData }) {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
+  // Refs for animated text
+  const sectionTitleRef = useRef(null);
+  const mainHeadingRef = useRef(null);
+  const servicesTitleRef = useRef(null);
+  const overviewTextRef = useRef(null);
+
+  useEffect(() => {
+    // Section Title
+    if (sectionTitleRef.current) {
+      gsap.fromTo(
+        sectionTitleRef.current.querySelectorAll(".split-word"),
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.06,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionTitleRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+    // Main Heading
+    if (mainHeadingRef.current) {
+      gsap.fromTo(
+        mainHeadingRef.current.querySelectorAll(".split-word"),
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          delay: 0.1,
+          stagger: 0.05,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: mainHeadingRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+    // Services Title
+    if (servicesTitleRef.current) {
+      gsap.fromTo(
+        servicesTitleRef.current.querySelectorAll(".split-word"),
+        { x: -20, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.6,
+          delay: 0.2,
+          stagger: 0.07,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: servicesTitleRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+    // Overview Text
+    if (overviewTextRef.current) {
+      gsap.fromTo(
+        overviewTextRef.current.querySelectorAll(".split-word"),
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          delay: 0.3,
+          stagger: 0.04,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: overviewTextRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+    // Cleanup
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
     <>
       {/* Section 1 — What We Do */}
@@ -42,18 +157,17 @@ function Services({ showCanvas, canvasData }) {
         <div className="flex justify-between items-start w-full z-10">
           {/* Left Side */}
           <div className="w-1/2 flex flex-col gap-10 pl-30">
-            <h2 className="text-xl uppercase tracking-wide font-semibold flex items-center gap-3">
+            <h2 ref={sectionTitleRef} className="text-xl uppercase tracking-wide font-semibold flex items-center gap-3">
               <span>01</span>
               <span className="w-8 h-[1px] bg-current inline-block"></span>
-              <span>What we do</span>
+              <SplitWords text="What we do" spanClass="split-word" />
             </h2>
           </div>
 
           {/* Right Side */}
           <div className="w-1/2 flex flex-col gap-10 ml-15">
-            <h1 className="text-5xl leading-tight font-light max-w-[65%]">
-              We aim to elevate digital production in the advertising space,
-              bringing your ideas to life.
+            <h1 ref={mainHeadingRef} className="text-5xl leading-tight font-light max-w-[65%]">
+              <SplitWords text="We aim to elevate digital production in the advertising space, bringing your ideas to life." spanClass="split-word" />
             </h1>
 
             <div
@@ -86,15 +200,11 @@ function Services({ showCanvas, canvasData }) {
             <Canvas key={index} details={canvasDets} />
           ))}
 
-        <h3 className="text-md uppercase tracking-wider opacity-70 mb-5">
-          Our Services
+        <h3 ref={servicesTitleRef} className="text-md uppercase tracking-wider opacity-70 mb-5">
+          <SplitWords text="Our Services" spanClass="split-word" />
         </h3>
-
-        <p className="text-3xl md:text-4xl leading-snug font-normal max-w-[65%] ">
-          We provide you with captivating design, interactive animations,
-          reliable code, and immaculate project coordination. Whether you need a
-          campaign built from scratch or assistance at a specific phase, we’ve
-          got you covered.
+        <p ref={overviewTextRef} className="text-3xl md:text-4xl leading-snug font-normal max-w-[65%] ">
+          <SplitWords text="We provide you with captivating design, interactive animations, reliable code, and immaculate project coordination. Whether you need a campaign built from scratch or assistance at a specific phase, we’ve got you covered." spanClass="split-word" />
         </p>
       </div>
 
@@ -102,30 +212,34 @@ function Services({ showCanvas, canvasData }) {
       <div
         className={`w-full ${bgColor} px-[8%] py-16 transition-colors duration-1000 ease-in-out`}
       >
-        <div className="w-full border-t border-white/20">
+        <div className={`w-full border-t ${showCanvas ? 'border-black/20' : 'border-white/20'}`}>
           {accordionItems.map((item, index) => (
             <div
               key={index}
-              className="w-full border-b border-white/20 transition-colors duration-300"
+              className={`w-full border-b ${showCanvas ? 'border-black/20' : 'border-white/20'} transition-colors duration-300`}
             >
               {/* Accordion Header — full width, aligned */}
               <div
                 className="w-full py-6 cursor-pointer px-4 flex justify-between items-center"
                 onClick={() => toggleAccordion(index)}
               >
-                <h4 className="uppercase text-md font-semibold tracking-wide">
+                <h4 className={`uppercase text-md font-semibold tracking-wide transition-colors duration-300 ${showCanvas ? 'text-black' : 'text-white'}`}> 
                   {item}
                 </h4>
                 <button
                   className={`
-              border border-white 
+              border ${showCanvas ? 'border-black' : 'border-white'}
               w-8 h-8 rounded-full 
               flex items-center justify-center 
               transition duration-300
               ${
                 openIndex === index
-                  ? "bg-white text-black"
-                  : "text-white hover:bg-white hover:text-black"
+                  ? showCanvas
+                    ? 'bg-black text-white'
+                    : 'bg-white text-black'
+                  : showCanvas
+                    ? 'text-black hover:bg-black hover:text-white'
+                    : 'text-white hover:bg-white hover:text-black'
               }
             `}
                 >
@@ -140,12 +254,12 @@ function Services({ showCanvas, canvasData }) {
               {/* Accordion Content — full width, aligned with header */}
               {openIndex === index && (
                 <div className="w-full pb-6">
-                  <ul className="text-sm text-white divide-y divide-white/10 px-4">
+                  <ul className={`text-sm divide-y px-4 transition-colors duration-300 ${showCanvas ? 'text-black divide-black/10' : 'text-white divide-white/10'}`}>
                     {item === "Creative" &&
                       ["Art direction", "Creative direction"].map((line, i) => (
                         <li
                           key={i}
-                          className="py-3 transition-colors duration-300 hover:bg-white hover:text-black cursor-pointer"
+                          className={`py-3 transition-colors duration-300 cursor-pointer ${showCanvas ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'}`}
                         >
                           {line}
                         </li>
@@ -155,7 +269,7 @@ function Services({ showCanvas, canvasData }) {
                       ["UI/UX", "Branding", "Layout Systems"].map((line, i) => (
                         <li
                           key={i}
-                          className="py-3 transition-colors duration-300 hover:bg-white hover:text-black cursor-pointer"
+                          className={`py-3 transition-colors duration-300 cursor-pointer ${showCanvas ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'}`}
                         >
                           {line}
                         </li>
@@ -169,7 +283,7 @@ function Services({ showCanvas, canvasData }) {
                       ].map((line, i) => (
                         <li
                           key={i}
-                          className="py-3 transition-colors duration-300 hover:bg-white hover:text-black cursor-pointer"
+                          className={`py-3 transition-colors duration-300 cursor-pointer ${showCanvas ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'}`}
                         >
                           {line}
                         </li>
@@ -183,7 +297,7 @@ function Services({ showCanvas, canvasData }) {
                       ].map((line, i) => (
                         <li
                           key={i}
-                          className="py-3 transition-colors duration-300 hover:bg-white hover:text-black cursor-pointer"
+                          className={`py-3 transition-colors duration-300 cursor-pointer ${showCanvas ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'}`}
                         >
                           {line}
                         </li>
@@ -197,7 +311,7 @@ function Services({ showCanvas, canvasData }) {
                       ].map((line, i) => (
                         <li
                           key={i}
-                          className="py-3 transition-colors duration-300 hover:bg-white hover:text-black cursor-pointer"
+                          className={`py-3 transition-colors duration-300 cursor-pointer ${showCanvas ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'}`}
                         >
                           {line}
                         </li>
@@ -211,7 +325,7 @@ function Services({ showCanvas, canvasData }) {
                       ].map((line, i) => (
                         <li
                           key={i}
-                          className="py-3 transition-colors duration-300 hover:bg-white hover:text-black cursor-pointer"
+                          className={`py-3 transition-colors duration-300 cursor-pointer ${showCanvas ? 'hover:bg-black hover:text-white' : 'hover:bg-white hover:text-black'}`}
                         >
                           {line}
                         </li>

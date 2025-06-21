@@ -64,6 +64,30 @@ function App() {
   }, []);
   // console.log(data[2]);
 
+  useEffect(() => {
+    // Split heading text into spans for animation
+    const headingElement = headingref.current;
+    if (headingElement) {
+      const text = headingElement.textContent;
+      headingElement.innerHTML = text
+        .split("")
+        .map(
+          (char, i) =>
+            `<span class="split-char" style="display:inline-block; opacity:0; transform:translateY(40px)">${char === " " ? "&nbsp;" : char}</span>`
+        )
+        .join("");
+    }
+    // Animate each character in
+    gsap.to(".split-char", {
+      opacity: 1,
+      y: 0,
+      stagger: 0.03,
+      duration: 1,
+      ease: "power2.out",
+      delay: 0.3,
+    });
+  }, []);
+
   return (
     <>
       <span
@@ -146,13 +170,9 @@ function App() {
         </div>
       </div>
 
-      
-
       <Services showCanvas={showCanvas} canvasData={data[1]} />
-     <WhoWeAre showCanvas={showCanvas} canvasData={data[9]} />
-     <HowWeGiveBack showCanvas={showCanvas} canvasData={data[2]} />
-     
-
+      <WhoWeAre showCanvas={showCanvas} canvasData={data[9]} />
+      <HowWeGiveBack showCanvas={showCanvas} canvasData={data[2]} />
     </>
   );
 }
