@@ -143,7 +143,7 @@ function Services({ showCanvas, canvasData }) {
     <>
       {/* Section 1 — What We Do */}
       <div
-        className={`w-full min-h-screen ${bgColor} px-[8%] py-24 flex flex-col gap-20 relative overflow-hidden transition-colors duration-1000 ease-in-out`}
+        className={`w-full min-h-screen ${bgColor} px-3 sm:px-6 md:px-[8%] pt-6 sm:pt-12 md:pt-24 pb-0 sm:pb-12 md:pb-24 flex flex-col gap-6 sm:gap-20 relative overflow-hidden transition-colors duration-1000 ease-in-out`}
       >
         {/* Top horizontal line */}
         <div className={`w-full h-[1px] ${lineColor} absolute top-0 left-0`} />
@@ -154,24 +154,24 @@ function Services({ showCanvas, canvasData }) {
             <Canvas key={index} details={canvasDets} />
           ))}
 
-        <div className="flex justify-between items-start w-full z-10">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start w-full z-10 gap-8 md:gap-0">
           {/* Left Side */}
-          <div className="w-1/2 flex flex-col gap-10 pl-30">
-            <h2 ref={sectionTitleRef} className="text-xl uppercase tracking-wide font-semibold flex items-center gap-3">
+          <div className="w-full md:w-1/2 flex flex-col gap-6 sm:gap-10 md:pl-20">
+            <h2 ref={sectionTitleRef} className="text-lg sm:text-xl uppercase tracking-wide font-semibold flex items-center gap-2 sm:gap-3">
               <span>01</span>
-              <span className="w-8 h-[1px] bg-current inline-block"></span>
+              <span className="w-6 sm:w-8 h-[1px] bg-current inline-block"></span>
               <SplitWords text="What we do" spanClass="split-word" />
             </h2>
           </div>
 
           {/* Right Side */}
-          <div className="w-1/2 flex flex-col gap-10 ml-15">
-            <h1 ref={mainHeadingRef} className="text-5xl leading-tight font-light max-w-[65%]">
+          <div className="w-full md:w-1/2 flex flex-col gap-6 sm:gap-10 md:ml-20">
+            <h1 ref={mainHeadingRef} className="text-2xl sm:text-4xl md:text-5xl leading-tight font-light max-w-full md:max-w-[65%]">
               <SplitWords text="We aim to elevate digital production in the advertising space, bringing your ideas to life." spanClass="split-word" />
             </h1>
 
             <div
-              className={`text-sm leading-relaxed ${paragraphColor} space-y-4 max-w-[65%] mt-24`}
+              className={`text-sm sm:text-base leading-relaxed ${paragraphColor} space-y-4 max-w-full md:max-w-[65%] mt-8 sm:mt-16 md:mt-24`}
             >
               <p>
                 As a contemporary studio, we use cutting-edge design practices
@@ -189,7 +189,7 @@ function Services({ showCanvas, canvasData }) {
 
       {/* Section 2 — Our Services Overview */}
       <div
-        className={`w-full ${bgColor} px-[8%] py-28 flex flex-col items-start gap-8 relative transition-colors duration-1000 ease-in-out`}
+        className={`w-full ${bgColor} px-3 sm:px-6 md:px-[8%] pt-0 sm:pt-14 md:pt-28 pb-6 sm:pb-14 md:pb-28 flex flex-col items-start gap-2 sm:gap-8 relative transition-colors duration-1000 ease-in-out`}
       >
         {/* Top line */}
         <div className={`w-full h-[1px] ${lineColor} absolute top-0 left-0`} />
@@ -200,17 +200,17 @@ function Services({ showCanvas, canvasData }) {
             <Canvas key={index} details={canvasDets} />
           ))}
 
-        <h3 ref={servicesTitleRef} className="text-md uppercase tracking-wider opacity-70 mb-5">
+        <h3 ref={servicesTitleRef} className="text-sm sm:text-md uppercase tracking-wider opacity-70 mb-2 sm:mb-5">
           <SplitWords text="Our Services" spanClass="split-word" />
         </h3>
-        <p ref={overviewTextRef} className="text-3xl md:text-4xl leading-snug font-normal max-w-[65%] ">
+        <p ref={overviewTextRef} className="text-lg sm:text-2xl md:text-4xl leading-snug font-normal max-w-full md:max-w-[65%] ">
           <SplitWords text="We provide you with captivating design, interactive animations, reliable code, and immaculate project coordination. Whether you need a campaign built from scratch or assistance at a specific phase, we’ve got you covered." spanClass="split-word" />
         </p>
       </div>
 
       {/* Section 3 — Accordion */}
       <div
-        className={`w-full ${bgColor} px-[8%] py-16 transition-colors duration-1000 ease-in-out`}
+        className={`w-full ${bgColor} px-3 sm:px-6 md:px-[8%] py-4 sm:py-8 md:py-16 transition-colors duration-1000 ease-in-out`}
       >
         <div className={`w-full border-t ${showCanvas ? 'border-black/20' : 'border-white/20'}`}>
           {accordionItems.map((item, index) => (
@@ -220,10 +220,10 @@ function Services({ showCanvas, canvasData }) {
             >
               {/* Accordion Header — full width, aligned */}
               <div
-                className="w-full py-6 cursor-pointer px-4 flex justify-between items-center"
+                className="w-full py-4 sm:py-6 cursor-pointer px-2 sm:px-4 flex justify-between items-center"
                 onClick={() => toggleAccordion(index)}
               >
-                <h4 className={`uppercase text-md font-semibold tracking-wide transition-colors duration-300 ${showCanvas ? 'text-black' : 'text-white'}`}> 
+                <h4 className={`uppercase text-sm sm:text-md font-semibold tracking-wide transition-colors duration-300 ${showCanvas ? 'text-black' : 'text-white'}`}> 
                   {item}
                 </h4>
                 <button
@@ -253,8 +253,8 @@ function Services({ showCanvas, canvasData }) {
 
               {/* Accordion Content — full width, aligned with header */}
               {openIndex === index && (
-                <div className="w-full pb-6">
-                  <ul className={`text-sm divide-y px-4 transition-colors duration-300 ${showCanvas ? 'text-black divide-black/10' : 'text-white divide-white/10'}`}>
+                <div className="w-full pb-4 sm:pb-6">
+                  <ul className={`text-sm divide-y px-2 sm:px-4 transition-colors duration-300 ${showCanvas ? 'text-black divide-black/10' : 'text-white divide-white/10'}`}>
                     {item === "Creative" &&
                       ["Art direction", "Creative direction"].map((line, i) => (
                         <li
@@ -340,15 +340,15 @@ function Services({ showCanvas, canvasData }) {
 
       {/* Section 4 — Contact Us */}
 <div
-  className={`w-full ${bgColor} px-[8%] py-24 transition-colors duration-1000 ease-in-out`}
+  className={`w-full ${bgColor} px-3 sm:px-6 md:px-[8%] py-8 sm:py-12 md:py-24 transition-colors duration-1000 ease-in-out`}
 >
-  <div className="max-w-3xl ml-auto flex flex-col gap-6">
-    <p className="text-sm md:text-base text-white/80">
+  <div className="max-w-full md:max-w-3xl ml-0 md:ml-auto flex flex-col gap-4 sm:gap-6">
+    <p className="text-xs sm:text-sm md:text-base text-white/80">
       Got a project in mind? Drop us a line at <br />
       <span className="text-white">hello@thirtysixstudio.com</span> or use the form below.
     </p>
 
-    <p className="text-sm md:text-base text-white/80 leading-relaxed">
+    <p className="text-xs sm:text-sm md:text-base text-white/80 leading-relaxed">
       Not sure what you need? We’re here to help you define the undefined.
       Let’s explore all creative and technical possibilities together through one
       of our tailored labs, where we champion future-forward thinking within
@@ -356,7 +356,7 @@ function Services({ showCanvas, canvasData }) {
     </p>
 
     <button
-      className="mt-4 w-fit border border-white rounded-full px-6 py-2 text-sm text-white hover:bg-white hover:text-black transition-colors duration-300"
+      className="mt-4 w-full md:w-fit border border-white rounded-full px-4 sm:px-6 py-2 text-xs sm:text-sm text-white hover:bg-white hover:text-black transition-colors duration-300"
     >
       TALK TO US
     </button>
