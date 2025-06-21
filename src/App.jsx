@@ -3,7 +3,9 @@ import Canvas from "./Canvas";
 import data from "./data";
 import LocomotiveScroll from "locomotive-scroll";
 import { gsap } from "gsap";
-import Services from "./pages/services";
+import Services from "./pages/Services";
+import WhoWeAre from "./pages/WhoWeAre";
+import HowWeGiveBack from "./pages/HowWeGiveBack";
 
 function App() {
   const [showCanvas, setShowCanvas] = useState(false);
@@ -60,6 +62,7 @@ function App() {
     // Clean up event listener on unmount
     return () => headingElement.removeEventListener("click", handleClick);
   }, []);
+  // console.log(data[2]);
 
   return (
     <>
@@ -67,7 +70,7 @@ function App() {
         ref={growingSpan}
         className="growing rounded-full block fixed top-[-20px] left-[-20px] w-5 h-5"
       ></span>
-      <div className="min-h-screen relative w-full font-['PP Mori'] ">
+      <div className="min-h-screen relative w-full font-['PP Mori'] mb-30">
         {showCanvas &&
           data[0].map((canvasDets, index) => <Canvas details={canvasDets} />)}
 
@@ -143,50 +146,13 @@ function App() {
         </div>
       </div>
 
-      <div className="w-full relative h-[100%] mt-32 px-[10%]">
-        {showCanvas &&
-          data[1].map((canvasDets, index) => (
-            <Canvas key={index} details={canvasDets} />
-          ))}
+      
 
-        {/* Flex container for image and text column */}
-        <div className="flex mt-10 gap-10">
-          {/* Left: Image */}
-          <img
-            className="w-[60%] object-cover rounded-4xl"
-            src="https://directus.funkhaus.io/assets/b3b5697d-95a0-4af5-ba59-b1d423411b1c?withoutEnlargement=true&fit=outside&width=1400&height=1400"
-            alt="Studio work"
-          />
+      <Services showCanvas={showCanvas} canvasData={data[1]} />
+     <WhoWeAre showCanvas={showCanvas} canvasData={data[9]} />
+     <HowWeGiveBack showCanvas={showCanvas} canvasData={data[2]} />
+     
 
-          {/* Right: Stacked text content */}
-          <div className="w-[40%] h-[80vh] flex flex-col justify-start mt-10">
-            <h1 className="text-xl tracking-tight">WHAT WE DO</h1>
-            <p className="text-4xl leading-[1] mt-6 font-light">
-              We aim to elevate digital production in the advertising space,
-              bringing your ideas to life.
-            </p>
-            <p className="text-base leading-relaxed mt-6">
-              As a contemporary studio, we use cutting-edge design practices and
-              the latest technologies to deliver current digital work. Our
-              commitment to innovation and simplicity, paired with our agile
-              approach, ensures your journey with us is smooth and enjoyable
-              from start to finish.
-            </p>
-
-            {/* Properly embedded video */}
-            <video
-              className="w-full h-full object-cover rounded-full shadow-xl mt-4"
-              src="/rings_1.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
-          </div>
-        </div>
-      </div>
-
-      <Services />
     </>
   );
 }
